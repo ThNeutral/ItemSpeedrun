@@ -1,5 +1,6 @@
     package SetupWorld;
 
+    import Items.Items;
     import Main.main;
     import Scoreboard.timer.Timer;
     import Scoreboard.scoreboard;
@@ -22,7 +23,6 @@
     import org.bukkit.block.Block;
     import org.bukkit.potion.PotionEffect;
     import org.bukkit.potion.PotionEffectType;
-    import org.bukkit.potion.Potion;
     import org.bukkit.Material;
     import org.bukkit.block.data.BlockData;
     import org.bukkit.Bukkit;
@@ -103,33 +103,39 @@
             Player player = (Player) sender;
             if (lastWorldName != null && Bukkit.getWorld(lastWorldName) != null)
                 Bukkit.getServer().unloadWorld(Bukkit.getWorld(lastWorldName), true);
-            World newWorld = null;
-            boolean acceptableBiome = false;
-            long seed;
-            WorldCreator worldCreator;
-            Biome biomeAtSpawn;
 
             for (Player p : Bukkit.getOnlinePlayers())
                 p.sendTitle(ChatColor.YELLOW + "Loading map...", "", 10, 300, 10);
 
-            while (!acceptableBiome) {
-                seed = new Random().nextLong();
-                worldCreator = new WorldCreator("world_" + seed);
-                worldCreator.seed(seed);
-                newWorld = player.getServer().createWorld(worldCreator);
-                biomeAtSpawn = newWorld.getBiome(0, 0);
+            // Create one world with random seed
+            long seed = new Random().nextLong();
+            WorldCreator worldCreator = new WorldCreator("world_" + seed);
+            worldCreator.seed(seed);
+            World newWorld = player.getServer().createWorld(worldCreator);
+
+            // Sample different chunks to find acceptable biome
+            Random random = new Random();
+            boolean acceptableBiome = false;
+            int spawnX = 0;
+            int spawnZ = 0;
+            int maxAttempts = 100;
+
+            for (int attempt = 0; attempt < maxAttempts && !acceptableBiome; attempt++) {
+                // Sample random chunk coordinates (within reasonable range, e.g., -1000 to 1000 blocks)
+                spawnX = (random.nextInt(125) - 62) * 16; // -992 to 992 blocks (chunk-aligned)
+                spawnZ = (random.nextInt(125) - 62) * 16;
+
+                Biome biomeAtSpawn = newWorld.getBiome(spawnX, spawnZ);
 
                 if (biomeAtSpawn != Biome.OCEAN && biomeAtSpawn != Biome.RIVER && biomeAtSpawn != Biome.DEEP_OCEAN && biomeAtSpawn != Biome.COLD_OCEAN
-                        && biomeAtSpawn != Biome.FROZEN_OCEAN && biomeAtSpawn != Biome.LUKEWARM_OCEAN && biomeAtSpawn != Biome.WARM_OCEAN && biomeAtSpawn != Biome.DEEP_WARM_OCEAN
+                        && biomeAtSpawn != Biome.FROZEN_OCEAN && biomeAtSpawn != Biome.LUKEWARM_OCEAN && biomeAtSpawn != Biome.WARM_OCEAN
                         && biomeAtSpawn != Biome.DEEP_LUKEWARM_OCEAN && biomeAtSpawn != Biome.DEEP_COLD_OCEAN && biomeAtSpawn != Biome.DEEP_FROZEN_OCEAN) {
                     acceptableBiome = true;
-                } else {
-                    player.getServer().unloadWorld(newWorld, false);
                 }
             }
 
             player.sendTitle("", "");
-            newWorld.setSpawnLocation(0, newWorld.getHighestBlockYAt(0, 0) + 1, 0);
+            newWorld.setSpawnLocation(spawnX, newWorld.getHighestBlockYAt(spawnX, spawnZ) + 1, spawnZ);
             lastWorldName = newWorld.getName();
 
             return newWorld;
@@ -211,18 +217,18 @@
                     switch (gameLength) {
                         case "Short Game":
                             for (Player p : Bukkit.getOnlinePlayers()) {
-                                itemID = shortitem[random.nextInt(shortitem.length)];
+                                itemID = Items.shortitem[random.nextInt(shortitem.length)];
 
                             }
                             break;
                         case "Medium Game":
                             for (Player p : Bukkit.getOnlinePlayers()) {
-                                itemID = miditem[random.nextInt(miditem.length)];
+                                itemID = Items.miditem[random.nextInt(miditem.length)];
                             }
                             break;
                         case "Long Game":
                             for (Player p : Bukkit.getOnlinePlayers()) {
-                                itemID = longitem[random.nextInt(longitem.length)];
+                                itemID = Items.longitem[random.nextInt(longitem.length)];
                             }
                             break;
                     }
