@@ -1,6 +1,5 @@
 package Scoreboard;
 
-import Main.main;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.*;
 import org.bukkit.entity.Player;
@@ -8,10 +7,9 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.ScoreboardManager;
-import Scoreboard.timer.Timer;
-import SetupWorld.Setup;
 
-import java.io.Console;
+import Scoreboard.Timer.Timer;
+import SetupWorld.Setup;
 
 public class scoreboard {
 
@@ -33,7 +31,6 @@ public class scoreboard {
         timer.setSuffix("" + Timer.timer);
         obj.getScore("§dTimer §7-§c ").setScore(4);
 
-
         Team itemid = obj.getScoreboard().registerNewTeam("item");
         itemid.addEntry("§dItem §7-§c ");
         itemid.setSuffix("");
@@ -50,11 +47,12 @@ public class scoreboard {
         player.setScoreboard(board);
     }
 
-    public static void updatetimer(Player player){
+    public static void updatetimer(Player player) {
         org.bukkit.scoreboard.Scoreboard board = player.getScoreboard();
         board.getTeam("timer").setSuffix("" + Timer.timer);
     }
-    public static void updateitem(Player player){
+
+    public static void updateitem(Player player) {
         System.out.println("" + Setup.itemID.name());
         org.bukkit.scoreboard.Scoreboard board = player.getScoreboard();
         board.getTeam("item").setSuffix(" " + Setup.itemID.name());

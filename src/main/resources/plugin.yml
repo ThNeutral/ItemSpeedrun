@@ -1,11 +1,20 @@
 name: plugin
 main: Main.main
-version: 1.0
-api-version: 1.17
+version: 2.0
+api-version: 1.21
 commands:
-  play:
-    description: Génère un nouveau monde.
-    usage: /play
+  reroll:
+    description: Change target for next game.
+    usage: /reroll
   ready:
-    description: Prêt à jouer.
+    description: Vote for game start.
     usage: /ready
+  join:
+    description: Join current game.
+    usage: /join
+  skip:
+    description: Vote to skip current game.
+    usage: /skip
+  surrender:
+    description: Leave participation and spectate.
+    usage: /surrender

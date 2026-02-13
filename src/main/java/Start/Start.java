@@ -1,21 +1,13 @@
 package Start;
 
-import Main.main;
+import main.main;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import java.util.Random;
-import org.bukkit.block.Biome;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.block.Block;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class Start implements CommandExecutor {
 

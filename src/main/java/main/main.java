@@ -1,17 +1,17 @@
-package Main;
+package main;
 
-import Scoreboard.timer.Timer;
 import SetupWorld.Setup;
 import Start.Start;
 import WinCond.Win;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import Scoreboard.Timer.Timer;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.entity.Player;
-import SetupWorld.Setup;
-import Scoreboard.scoreboard;
 
 public class main extends JavaPlugin {
     private Set<UUID> readyPlayers = new HashSet<>();
@@ -23,22 +23,21 @@ public class main extends JavaPlugin {
         Setup setup = new Setup(this);
         Start start = new Start(this);
         Win winInstance = new Win(this);
-        Timer timer = new Timer();
 
         getServer().getPluginManager().registerEvents(setup, this);
         this.getCommand("play").setExecutor(setup);
         this.getCommand("ready").setExecutor(start);
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                winInstance.checkPlayersForDiamondSword();
-            }
-        }.runTaskTimer(this, 0L, 20L);
+        // FIX
+        // new BukkitRunnable() {
+        //     @Override
+        //     public void run() {
+        //         winInstance.checkPlayersForDiamondSword();
+        //     }
+        // }.runTaskTimer(this, 0L, 20L);
         instance = this;
         getServer().getPluginManager().registerEvents(new events.evenements(), this);
-        timer.runTaskTimer(main.getInstance(), 0, 20);
-
+        timer.runTaskTimerAsynchronously(this, 0, 20);
     }
 
     public static main getInstance() {
