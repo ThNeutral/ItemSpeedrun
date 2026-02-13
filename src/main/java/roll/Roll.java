@@ -1,4 +1,4 @@
-package Roll;
+package roll;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;

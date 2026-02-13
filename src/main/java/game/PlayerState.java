@@ -1,9 +1,9 @@
-package Game;
+package game;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
-import Scoreboard.Timer.TimerListener;
-import java.Time;
+import scoreboard.timer.TimerListener;
+import java.time.Duration;
 
 public class PlayerState implements TimerListener {
     private Player player;
@@ -17,7 +17,6 @@ public class PlayerState implements TimerListener {
 
     public Duration GetTotalTimePassed()
     {
-
-        return null!;
+        return null;
     }
 }

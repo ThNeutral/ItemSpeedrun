@@ -1,6 +1,6 @@
-package Start;
+package start;
 
-import main.main;
+import main.Main;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Start implements CommandExecutor {
 
-    public main plugin;
+    public Main plugin;
 
-    public Start(main plugin) {
+    public Start(Main plugin) {
         this.plugin = plugin;
     }
 

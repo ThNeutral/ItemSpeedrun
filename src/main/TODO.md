@@ -1,11 +1,11 @@
-# Game state
+# game state
 Keep main world as hub and enforce adveture mode here. Here you can reroll next game target and vote to start game. 
 
 # New comamnds
 Realize commands and functionality in plugin.yml 
 
 # Refactor
-Use Game class to control current game with current players. !#TBD
+Use game class to control current game with current players. !#TBD
 
 Terminate current game if there are no participants for X mins.
 

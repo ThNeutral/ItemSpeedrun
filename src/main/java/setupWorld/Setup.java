@@ -1,7 +1,7 @@
-package SetupWorld;
+package setupWorld;
 
-import Items.Items;
-import main.main;
+import items.Items;
+import main.Main;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,8 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import static Scoreboard.Timer.TimerListener.min;
-import static Scoreboard.Timer.TimerListener.sec;
+import static scoreboard.Timer.TimerListener.min;
+import static scoreboard.Timer.TimerListener.sec;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,6 @@ import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.Bukkit;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -31,7 +30,7 @@ import org.bukkit.ChatColor;
 
 public class Setup implements CommandExecutor, Listener {
 
-    private main plugin;
+    private Main plugin;
     private static long lastPlayCommandTime = 0;
     public String lastWorldName = null;
 
@@ -39,7 +38,7 @@ public class Setup implements CommandExecutor, Listener {
     private Map<Player, String> gameLengths = new HashMap<>();
     public static Material itemID = Material.DIAMOND;
     
-    public Setup(main plugin) {
+    public Setup(Main plugin) {
         this.plugin = plugin;
     }
 

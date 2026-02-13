@@ -1,5 +1,5 @@
 name: plugin
-main: Main.main
+main: main.Main.main
 version: 2.0
 api-version: 1.21
 commands:
