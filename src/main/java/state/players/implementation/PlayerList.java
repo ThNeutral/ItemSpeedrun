@@ -9,39 +9,43 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class PlayerList implements IPlayersReadyList, IPlayerList {
-    private final List<Player> players;
-    private final Set<Player> readyPlayers;
+    private final List<Player> _players;
+    private final Set<Player> _readyPlayers;
 
     public PlayerList() {
-        this.players = new java.util.ArrayList<>();
-        this.readyPlayers = new HashSet<>();
+        this._players = new java.util.ArrayList<>();
+        this._readyPlayers = new HashSet<>();
     }
 
     @Override
     public void addPlayer(Player player) {
-        players.add(player);
+        _players.add(player);
     }
 
     @Override
     public void removePlayer(Player player) {
-        // Overkill?
         if (!containsPlayer(player)) {
             throw new IllegalArgumentException("Tried to remove player that is not in the list.");
         }
 
-        players.remove(player);
-        readyPlayers.remove(player);
+        _players.remove(player);
+        _readyPlayers.remove(player);
     }
 
     @Override
     public boolean containsPlayer(Player player) {
-        return players.contains(player);
+        return _players.contains(player);
+    }
+
+    @Override
+    public List<Player> getPlayers() {
+        return _players;
     }
 
     @Override
     public void setReady(Player player) {
         if (containsPlayer(player)) {
-            readyPlayers.add(player);
+            _readyPlayers.add(player);
         } else {
             throw new IllegalArgumentException("Player is not in the player list.");
         }
@@ -49,17 +53,24 @@ public class PlayerList implements IPlayersReadyList, IPlayerList {
 
     @Override
     public void setNotReady(Player player) {
-        readyPlayers.remove(player);
+        _readyPlayers.remove(player);
     }
 
     @Override
     public boolean allReady() {
-        return !players.isEmpty() && readyPlayers.size() == players.size();
+        return !_players.isEmpty() && _readyPlayers.size() == _players.size();
     }
 
     @Override
     public void forceAllReady() {
-        readyPlayers.clear();
-        readyPlayers.addAll(players);
+        _readyPlayers.clear();
+        _readyPlayers.addAll(_players);
+    }
+
+    @Override
+    public void resetReadyForAllPlayers()
+    {
+        _readyPlayers.clear();
     }
 }
+

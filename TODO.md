@@ -5,3 +5,4 @@
 - Game state in dashboard
 - On pickup check victory condition
 - Win state
+- Add some benefits for those who suck balls and can't PVP

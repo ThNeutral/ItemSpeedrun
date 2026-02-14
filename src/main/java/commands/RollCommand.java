@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import state.game.ChallengeDifficulty;
 import state.game.IChallengeGenerator;
 
+import java.time.format.TextStyle;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class RollCommand implements CommandExecutor {

@@ -7,4 +7,5 @@ public interface IPlayersReadyList {
     void setNotReady(Player player);
     boolean allReady();
     void forceAllReady();
+    void resetReadyForAllPlayers();
 }

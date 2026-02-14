@@ -14,27 +14,32 @@ public class ReadyCommand implements CommandExecutor {
     public static final String COMMAND_NAME = "ready";
     public static final String FORCE_SUBCOMMAND = "force";
 
-    private final Logger logger;
-    private IPlayersReadyList playersReadyList;
+    private final Logger _logger;
+    private final IPlayersReadyList _playersReadyList;
+    private final IWorldHandler _worldHandler;
 
     public ReadyCommand(
             Logger logger,
-            IPlayersReadyList playersReadyList
+            IPlayersReadyList playersReadyList,
+            IWorldHandler worldHandler
     ) {
-        this.logger = logger;
-        this.playersReadyList = playersReadyList;
+        this._logger = logger;
+        this._playersReadyList = playersReadyList;
+        this._worldHandler = worldHandler;
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command _command, String _s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            logger.warning(ChatColor.RED + "/" + COMMAND_NAME + " command can only be done by a player.");
+            _logger.warning(ChatColor.RED + "/" + COMMAND_NAME + " command can only be done by a player.");
             return true;
         }
+        Player player = (Player) commandSender;
 
         if (strings.length > 0 && strings[0].equalsIgnoreCase(FORCE_SUBCOMMAND)) {
-            playersReadyList.forceAllReady();
-            return true;
+            _playersReadyList.forceAllReady();
+        } else {
+            _playersReadyList.setReady(player);
         }
 
         if (_playersReadyList.allReady()) {
