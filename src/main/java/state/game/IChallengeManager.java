@@ -4,7 +4,7 @@ import org.bukkit.Material;
 
 import java.util.Optional;
 
-public interface IChallengeGenerator {
+public interface IChallengeManager {
     Material rollItem(ChallengeDifficulty difficulty);
     Optional<Material> getCurrentItem();
 }

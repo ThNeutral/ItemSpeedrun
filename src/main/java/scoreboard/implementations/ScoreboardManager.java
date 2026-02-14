@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
 import scoreboard.IScoreboardManager;
-import state.game.IChallengeGenerator;
+import state.game.IChallengeManager;
 import state.players.IPlayerList;
 import state.time.ITimer;
 
@@ -13,12 +13,12 @@ public class ScoreboardManager implements IScoreboardManager {
     private final static String TIMER_TEAM_NAME = "timer";
     private final static String ITEM_TEAM_NAME = "item";
 
-    private final IChallengeGenerator _challengeGenerator;
+    private final IChallengeManager _challengeGenerator;
     private final IPlayerList _playerList;
     private final ITimer _timer;
 
     public ScoreboardManager(
-            IChallengeGenerator challengeGenerator,
+            IChallengeManager challengeGenerator,
             IPlayerList playerList,
             ITimer timer
     ) {

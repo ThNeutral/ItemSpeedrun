@@ -5,7 +5,7 @@ import listeners.PlayerEventListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import scoreboard.implementations.ScoreboardManager;
-import state.game.implementations.ChallengeGenerator;
+import state.game.implementations.ChallengeManager;
 import state.game.implementations.WorldHandler;
 import state.players.implementation.PlayerList;
 import state.time.implementations.Timer;
@@ -25,7 +25,7 @@ public class MainPlugin extends JavaPlugin {
         timer.start();
 
         var items = new Items();
-        var challengeGenerator = new ChallengeGenerator(items);
+        var challengeGenerator = new ChallengeManager(items);
 
         var playerList = new PlayerList();
         var worldHandler = new WorldHandler();
