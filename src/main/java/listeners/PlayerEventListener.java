@@ -4,9 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import players.IPlayerList;
-
-import java.util.logging.Logger;
+import state.players.IPlayerList;
 
 public class PlayerEventListener implements Listener {
     private final IPlayerList playerList;

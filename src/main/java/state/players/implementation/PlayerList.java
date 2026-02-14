@@ -1,8 +1,8 @@
-package players.implementation;
+package state.players.implementation;
 
 import org.bukkit.entity.Player;
-import players.IPlayerList;
-import players.IPlayersReadyList;
+import state.players.IPlayerList;
+import state.players.IPlayersReadyList;
 
 import java.util.List;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package players;
+package state.players;
 
 import org.bukkit.entity.Player;
 

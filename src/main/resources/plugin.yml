@@ -3,12 +3,12 @@ main: MainPlugin
 version: 2.0
 api-version: 1.21
 commands:
-  reroll:
-    description: Change target for next game.
-    usage: /reroll
+  roll:
+    description: Roll target for next game.
+    usage: /roll [difficulties]
   ready:
     description: Vote for game start.
-    usage: /ready
+    usage: /ready [force]
   join:
     description: Join current game.
     usage: /join

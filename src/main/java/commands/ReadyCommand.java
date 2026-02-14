@@ -5,7 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import players.IPlayersReadyList;
+import state.game.IWorldHandler;
+import state.players.IPlayersReadyList;
 
 import java.util.logging.Logger;
 
@@ -36,13 +37,17 @@ public class ReadyCommand implements CommandExecutor {
             return true;
         }
 
-        Player player = (Player) commandSender;
-
-        playersReadyList.setReady(player);
-        if (playersReadyList.allReady()) {
-
+        if (_playersReadyList.allReady()) {
+            startChallenge();
+            return true;
         }
 
         return true;
+    }
+
+    private void startChallenge() {
+        _worldHandler.moveAllPlayersToMainWorld();
+        _worldHandler.unloadWorldPreviousAndGenerateNewWorld();
+        _worldHandler.moveAllPlayersToMinigameWorld();
     }
 }
