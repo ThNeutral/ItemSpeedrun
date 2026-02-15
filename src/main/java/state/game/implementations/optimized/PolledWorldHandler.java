@@ -1,14 +1,7 @@
 package state.game.implementations.optimized;
 
-
-import java.util.EnumSet;
-import java.util.Random;
-import java.util.Set;
-
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 
 import state.game.IWorldHandler;
 import state.players.IPlayerList;
@@ -22,8 +15,7 @@ public class PolledWorldHandler extends IWorldHandler {
 
     public PolledWorldHandler(
             WorldPool worldPool,
-            IPlayerList playerList
-    ) {
+            IPlayerList playerList) {
         _mainWorld = Bukkit.getWorlds().getFirst();
         _worldPool = worldPool;
         _playerList = playerList;
