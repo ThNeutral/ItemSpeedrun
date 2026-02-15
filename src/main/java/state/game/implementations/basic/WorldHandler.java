@@ -1,4 +1,4 @@
-package state.game.implementations.Basic;
+package state.game.implementations.basic;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,21 +13,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
-public class WorldHandler implements IWorldHandler {
-
+public class WorldHandler extends IWorldHandler {
     private static final String MINIGAME_WORLD_NAME = "fuckmedaddy";
-    private static final Set<Biome> BAD_SPAWN_LOCATIONS = EnumSet.of(
-            Biome.OCEAN,
-            Biome.DEEP_OCEAN,
-            Biome.COLD_OCEAN,
-            Biome.FROZEN_OCEAN,
-            Biome.LUKEWARM_OCEAN,
-            Biome.WARM_OCEAN,
-            Biome.RIVER,
-            Biome.DEEP_LUKEWARM_OCEAN,
-            Biome.DEEP_COLD_OCEAN,
-            Biome.DEEP_FROZEN_OCEAN
-    );
 
     private Optional<World> _minigameWorld;
     private World _mainWorld;
@@ -78,25 +65,5 @@ public class WorldHandler implements IWorldHandler {
     public void moveAllPlayersToMainWorld() {
         var spawnLocation = _mainWorld.getSpawnLocation();
         _playerList.getPlayers().forEach(player -> player.teleport(spawnLocation));
-    }
-
-    private Location findAvailableSpawnLocation(World world)
-    {
-        Random random = new Random();
-        boolean acceptableBiome = false;
-        int spawnX = 0;
-        int spawnZ = 0;
-        int maxAttempts = 300;
-
-        for (int attempt = 0; attempt < maxAttempts && !acceptableBiome; attempt++) {
-            spawnX = (random.nextInt(125) - 62) * 16; // -992 to 992 blocks (chunk-aligned)
-            spawnZ = (random.nextInt(125) - 62) * 16;
-
-            Biome biomeAtSpawn = world.getBiome(spawnX, spawnZ);
-
-            acceptableBiome = !BAD_SPAWN_LOCATIONS.contains(biomeAtSpawn);
-        }
-
-        return new Location(world, spawnX, world.getHighestBlockYAt(spawnX, spawnZ) + 2, spawnZ);
     }
 }

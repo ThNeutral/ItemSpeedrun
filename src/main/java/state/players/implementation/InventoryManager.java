@@ -1,4 +1,4 @@
-﻿package state.players.implementation;
+package state.players.implementation;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;

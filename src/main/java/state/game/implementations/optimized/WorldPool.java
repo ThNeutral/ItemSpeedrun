@@ -1,4 +1,4 @@
-package state.game.implementations.Optimized;
+package state.game.implementations.optimized;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,14 +31,14 @@ public class WorldPool {
 
         var worldDataList = getWorlds();
         if (worldDataList.isEmpty()) {
-            Generate();
+            generate();
             worldDataList = getWorlds();
         }
 
         return Bukkit.getWorld(worldDataList.get(0).getName());
     }
 
-    public void DeleteWorld(World world) {
+    public void deleteWorld(World world) {
         world.getName();
         File folder = world.getWorldFolder();
         Bukkit.unloadWorld(world, false);
@@ -50,7 +50,7 @@ public class WorldPool {
 
         int missing = poolSize - worldDataList.size();
         if (missing > 0) {
-            Generate(missing);
+            generate(missing);
         }
     }
 
@@ -67,11 +67,11 @@ public class WorldPool {
         return worldDataList;
     }
 
-    private void Generate() {
-        this.Generate(1);
+    private void generate() {
+        generate(1);
     }
 
-    private void Generate(int count) {
+    private void generate(int count) {
         for (int i = 0; i < count; i++) {
             var worldName = prefix + "_" + UUID.randomUUID();
             Bukkit.createWorld(new org.bukkit.WorldCreator(worldName));

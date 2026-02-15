@@ -8,8 +8,8 @@ import org.bukkit.scheduler.BukkitTask;
 import state.game.IWorldHandler;
 import state.game.implementations.ChallengeManager;
 import state.game.implementations.GameStateManager;
-import state.game.implementations.Optimized.PolledWorldHandler;
-import state.game.implementations.Optimized.WorldPool;
+import state.game.implementations.optimized.PolledWorldHandler;
+import state.game.implementations.optimized.WorldPool;
 import state.players.implementation.InventoryManager;
 import state.players.implementation.PlayerList;
 import state.time.implementations.Timer;
@@ -38,7 +38,7 @@ public class MainPlugin extends JavaPlugin {
 
         var playerList = new PlayerList();
         var worldPoll = new WorldPool(
-                10,
+                5,
                 "speedrun_world_",
                 getServer().getWorldContainer());
         IWorldHandler worldHandler = new PolledWorldHandler(worldPoll, playerList);
