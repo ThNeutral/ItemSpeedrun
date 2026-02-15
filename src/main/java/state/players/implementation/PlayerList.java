@@ -52,11 +52,6 @@ public class PlayerList implements IPlayersReadyList, IPlayerList {
     }
 
     @Override
-    public void setNotReady(Player player) {
-        _readyPlayers.remove(player);
-    }
-
-    @Override
     public boolean allReady() {
         return !_players.isEmpty() && _readyPlayers.size() == _players.size();
     }
@@ -68,8 +63,7 @@ public class PlayerList implements IPlayersReadyList, IPlayerList {
     }
 
     @Override
-    public void resetReadyForAllPlayers()
-    {
+    public void reset() {
         _readyPlayers.clear();
     }
 }

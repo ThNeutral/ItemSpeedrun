@@ -5,8 +5,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import state.game.GameStates;
+import state.game.IGameStateManager;
 import state.game.IWorldHandler;
 import state.players.IPlayersReadyList;
+import state.time.ITimer;
 
 import java.util.logging.Logger;
 
@@ -17,15 +20,21 @@ public class ReadyCommand implements CommandExecutor {
     private final Logger _logger;
     private final IPlayersReadyList _playersReadyList;
     private final IWorldHandler _worldHandler;
+    private final ITimer _timer;
+    private final IGameStateManager _gameStateManager;
 
     public ReadyCommand(
             Logger logger,
             IPlayersReadyList playersReadyList,
-            IWorldHandler worldHandler
+            IWorldHandler worldHandler,
+            ITimer timer,
+            IGameStateManager gameStateManager
     ) {
         this._logger = logger;
         this._playersReadyList = playersReadyList;
         this._worldHandler = worldHandler;
+        this._timer = timer;
+        this._gameStateManager = gameStateManager;
     }
 
     @Override
@@ -51,8 +60,10 @@ public class ReadyCommand implements CommandExecutor {
     }
 
     private void startChallenge() {
+        _gameStateManager.setCurrentState(GameStates.PLAYING);
         _worldHandler.moveAllPlayersToMainWorld();
         _worldHandler.unloadWorldPreviousAndGenerateNewWorld();
         _worldHandler.moveAllPlayersToMinigameWorld();
+        _timer.start();
     }
 }

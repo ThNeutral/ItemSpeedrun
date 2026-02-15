@@ -1,32 +1,37 @@
 import commands.*;
 import constants.Constants;
 import constants.Items;
+import listeners.ItemAcquireEventListener;
 import listeners.PlayerEventListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-import scoreboard.implementations.ScoreboardManager;
 import state.game.IWorldHandler;
-import state.game.implementations.ChallengeGenerator;
+import state.game.implementations.ChallengeManager;
+import state.game.implementations.GameStateManager;
 import state.game.implementations.Optimized.PolledWorldHandler;
 import state.game.implementations.Optimized.WorldPool;
 import state.players.implementation.PlayerList;
 import state.time.implementations.Timer;
+import ui.implementations.BannerManager;
+import ui.implementations.ScoreboardManager;
 
 public class MainPlugin extends JavaPlugin {
     private BukkitTask scoreboardTask;
+    private BukkitTask bannerTask;
 
     @Override
     public void onEnable() {
         getLogger().info(Constants.PLUGIN_NAME + " " + Constants.PLUGIN_VERSION + "started!");
-        // Initialize your plugin here (e.g., register commands, events)
 
         var scheduler = getServer().getScheduler();
+        var pluginManager = getServer().getPluginManager();
 
         var timer = new Timer();
-        timer.start();
+
+        var gameStateManager = new GameStateManager();
 
         var items = new Items();
-        var challengeGenerator = new ChallengeGenerator(items);
+        var challengeManager = new ChallengeManager(items, timer, gameStateManager);
 
         var playerList = new PlayerList();
         var worldPoll = new WorldPool(
@@ -35,23 +40,32 @@ public class MainPlugin extends JavaPlugin {
                 getServer().getWorldContainer());
         IWorldHandler worldHandler = new PolledWorldHandler(worldPoll);
 
-        var scoreboardManager = new ScoreboardManager(challengeGenerator, playerList, timer);
+        var scoreboardManager = new ScoreboardManager(challengeManager, playerList, timer, gameStateManager);
+        var bannerManager = new BannerManager(gameStateManager, challengeManager, playerList, timer);
 
-        getServer().getPluginManager().registerEvents(new PlayerEventListener(playerList), this);
+        pluginManager.registerEvents(new ItemAcquireEventListener(challengeManager), this);
+        pluginManager.registerEvents(new PlayerEventListener(playerList), this);
 
-        getCommand(RollCommand.COMMAND_NAME).setExecutor(new RollCommand(getLogger(), challengeGenerator));
-        getCommand(ReadyCommand.COMMAND_NAME).setExecutor(new ReadyCommand(getLogger(), playerList, worldHandler));
+        getCommand(RollCommand.COMMAND_NAME).setExecutor(new RollCommand(getLogger(), challengeManager));
+        getCommand(ReadyCommand.COMMAND_NAME).setExecutor(
+                new ReadyCommand(getLogger(), playerList, worldHandler, timer, gameStateManager)
+        );
         getCommand(JoinCommand.COMMAND_NAME).setExecutor(new JoinCommand(getLogger()));
         getCommand(SkipCommand.COMMAND_NAME).setExecutor(new SkipCommand(getLogger()));
         getCommand(SurrenderCommand.COMMAND_NAME).setExecutor(new SurrenderCommand(getLogger()));
 
         scoreboardTask = scheduler.runTaskTimer(this, scoreboardManager::update, 0L, 2L);
+        bannerTask = scheduler.runTaskTimer(this, bannerManager::update, 0L, 2L);
     }
 
     @Override
     public void onDisable() {
         if (scoreboardTask != null && !scoreboardTask.isCancelled()) {
             scoreboardTask.cancel();
+        }
+
+        if (bannerTask != null && !bannerTask.isCancelled()) {
+            bannerTask.cancel();
         }
     }
 }

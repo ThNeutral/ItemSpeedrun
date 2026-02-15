@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import state.game.ChallengeDifficulty;
-import state.game.IChallengeGenerator;
+import state.game.IChallengeManager;
 
 import java.util.logging.Logger;
 
@@ -15,11 +15,11 @@ public class RollCommand implements CommandExecutor {
     public static final String DIFFICULTIES_SUBCOMMAND = "difficulties";
 
     private final Logger _logger;
-    private final IChallengeGenerator _challengeGenerator;
+    private final IChallengeManager _challengeGenerator;
 
     public RollCommand(
             Logger logger,
-            IChallengeGenerator challengeGenerator
+            IChallengeManager challengeGenerator
     )
     {
         this._logger = logger;

@@ -1,8 +1,12 @@
 # Plan
-- Select item (reroll if needed)
-- Start game when everyone is ready
-- Generate world AFTER everyone is ready
-- Game state in dashboard
+- Select item (reroll if needed) - DONE
+- Start game when everyone is ready - DONE
+- Generate world AFTER everyone is ready - DONE
+- Game state in dashboard - DONE (add helper information about commands based on game state)
 - On pickup check victory condition
 - Win state
 - Add some benefits for those who suck balls and can't PVP
+
+# Bugs
+- zloebuchii timer na skorborde
+- clean inventory between runs
