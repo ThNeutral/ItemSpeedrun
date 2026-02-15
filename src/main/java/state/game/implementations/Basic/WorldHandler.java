@@ -1,4 +1,4 @@
-package state.game.implementations;
+package state.game.implementations.Basic;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
