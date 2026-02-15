@@ -35,7 +35,8 @@ public class WorldPool {
             worldDataList = getWorlds();
         }
 
-        return Bukkit.getWorld(worldDataList.get(0).getName());
+        var worldName = worldDataList.get(0).getName(); 
+        return Bukkit.createWorld(new org.bukkit.WorldCreator(worldName));
     }
 
     public void deleteWorld(World world) {
@@ -74,7 +75,8 @@ public class WorldPool {
     private void generate(int count) {
         for (int i = 0; i < count; i++) {
             var worldName = prefix + "_" + UUID.randomUUID();
-            Bukkit.createWorld(new org.bukkit.WorldCreator(worldName));
+            var world = Bukkit.createWorld(new org.bukkit.WorldCreator(worldName));
+            Bukkit.unloadWorld(world, false);
         }
     }
 }
