@@ -26,7 +26,7 @@ public class WorldPool {
 
     public World pull() {
         if (currentWorld != null) {
-            Bukkit.unloadWorld(currentWorld, false);
+            deleteWorld(currentWorld);
         }
 
         var worldDataList = getWorlds();
