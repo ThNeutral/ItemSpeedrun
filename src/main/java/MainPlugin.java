@@ -5,11 +5,12 @@ import listeners.PlayerEventListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import scoreboard.implementations.ScoreboardManager;
+import state.game.IWorldHandler;
 import state.game.implementations.ChallengeGenerator;
-import state.game.implementations.WorldHandler;
+import state.game.implementations.Optimized.PolledWorldHandler;
+import state.game.implementations.Optimized.WorldPool;
 import state.players.implementation.PlayerList;
 import state.time.implementations.Timer;
-
 
 public class MainPlugin extends JavaPlugin {
     private BukkitTask scoreboardTask;
@@ -28,7 +29,11 @@ public class MainPlugin extends JavaPlugin {
         var challengeGenerator = new ChallengeGenerator(items);
 
         var playerList = new PlayerList();
-        var worldHandler = new WorldHandler();
+        var worldPoll = new WorldPool(
+                10,
+                "speedrun_world_",
+                getServer().getWorldContainer());
+        IWorldHandler worldHandler = new PolledWorldHandler(worldPoll);
 
         var scoreboardManager = new ScoreboardManager(challengeGenerator, playerList, timer);
 

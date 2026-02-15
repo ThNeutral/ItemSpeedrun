@@ -1,4 +1,4 @@
-package state.game.implementations;
+package state.game.implementations.Basic;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -62,6 +62,7 @@ public class WorldHandler implements IWorldHandler {
 
         var minigameWorld = _minigameWorld.get();
         var spawnLocation = findAvailableSpawnLocation(minigameWorld);
+        // ну хуйня, лучше оперировать листом плееров
         Bukkit.getOnlinePlayers().forEach(player -> player.teleport(spawnLocation));
         Bukkit.getOnlinePlayers().forEach(player -> player.setBedSpawnLocation(spawnLocation, true));
         minigameWorld.setSpawnLocation(spawnLocation);
