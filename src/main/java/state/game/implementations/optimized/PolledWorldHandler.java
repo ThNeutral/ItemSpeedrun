@@ -31,13 +31,13 @@ public class PolledWorldHandler extends IWorldHandler {
     public void moveAllPlayersToMinigameWorld() {
         var spawnLocation = findAvailableSpawnLocation(_currentGameWorld);
         _playerList.getPlayers().forEach(player -> player.teleport(spawnLocation));
-        _playerList.getPlayers().forEach(player -> player.setRespawnLocation(spawnLocation));
+        _currentGameWorld.setSpawnLocation(spawnLocation);
     }
 
     @Override
     public void moveAllPlayersToMainWorld() {
         var spawnLocation = _mainWorld.getSpawnLocation();
         _playerList.getPlayers().forEach(player -> player.teleport(spawnLocation));
-        _playerList.getPlayers().forEach(player -> player.setRespawnLocation(spawnLocation));
+        _currentGameWorld.setSpawnLocation(spawnLocation);
     }
 }

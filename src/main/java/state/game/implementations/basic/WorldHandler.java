@@ -57,7 +57,6 @@ public class WorldHandler extends IWorldHandler {
         var minigameWorld = _minigameWorld.get();
         var spawnLocation = findAvailableSpawnLocation(minigameWorld);
         _playerList.getPlayers().forEach(player -> player.teleport(spawnLocation));
-        _playerList.getPlayers().forEach(player -> player.setBedSpawnLocation(spawnLocation, true));
         minigameWorld.setSpawnLocation(spawnLocation);
     }
 

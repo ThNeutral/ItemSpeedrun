@@ -30,15 +30,6 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event)
     {
-        // Setup default player location
-//        if (lastWorldName != null) {
-////            World respawnWorld = Bukkit.getWorld(lastWorldName);
-////            if (respawnWorld != null) {
-////                Location respawnLocation = respawnWorld.getSpawnLocation();
-////                event.setRespawnLocation(respawnLocation);
-////            }
-//        }
-        
         _inventoryManager.setDefaultInventory(event.getPlayer());
     }
 }

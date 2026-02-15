@@ -1,5 +1,6 @@
 package listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,6 +8,8 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import events.GameEndedEvent;
 import state.game.IChallengeManager;
 
 // Item can be acquired by picking it up, crafting it or tacking it from another inventory (like chest)
@@ -51,7 +54,7 @@ public class ItemAcquireEventListener implements Listener {
 
         var challengeItem = optionalChallengeItem.get();
         if (acquiredItem != null && acquiredItem.getType() == challengeItem) {
-            challengeManager.itemFound(player);
+            Bukkit.getServer().getPluginManager().callEvent(new GameEndedEvent(player));
         }
     }
 }

@@ -31,11 +31,10 @@ public class WorldPool {
 
         var worldDataList = getWorlds();
         if (worldDataList.isEmpty()) {
-            generate();
-            worldDataList = getWorlds();
+            return generate();
         }
 
-        var worldName = worldDataList.get(0).getName(); 
+        var worldName = worldDataList.get(0).getName();
         return Bukkit.createWorld(new org.bukkit.WorldCreator(worldName));
     }
 
@@ -68,8 +67,9 @@ public class WorldPool {
         return worldDataList;
     }
 
-    private void generate() {
-        generate(1);
+    private World generate() {
+        var worldName = prefix + "_" + UUID.randomUUID();
+        return Bukkit.createWorld(new org.bukkit.WorldCreator(worldName));
     }
 
     private void generate(int count) {

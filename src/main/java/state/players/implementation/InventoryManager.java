@@ -21,4 +21,9 @@ public class InventoryManager implements IInventoryManager {
         player.setGameMode(GameMode.SURVIVAL);
         player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_7, 1, 1);
     }
+
+    @Override
+    public void clearInventory(Player player) {
+        player.getInventory().clear();
+    }
 }

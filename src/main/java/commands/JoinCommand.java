@@ -11,10 +11,10 @@ import java.util.logging.Logger;
 public class JoinCommand implements CommandExecutor {
     public static final String COMMAND_NAME = "join";
 
-    private final Logger logger;
+    private final Logger _logger;
 
-    public JoinCommand(Logger logger) {
-        this.logger = logger;
+    public JoinCommand(Logger logger) { 
+        this._logger = logger;
     }
 
     @Override
@@ -25,8 +25,25 @@ public class JoinCommand implements CommandExecutor {
         }
 
         Player player = (Player) commandSender;
+        
+        if (!(commandSender instanceof Player)) {
+            _logger.warning(ChatColor.RED + "/" + COMMAND_NAME + " command can only be done by a player.");
+            return true;
+        }
+        Player player = (Player) commandSender;
 
-        // TODO: Add command logic here
+        if (strings.length > 0 && strings[0].equalsIgnoreCase(FORCE_SUBCOMMAND)) {
+            _playersReadyList.forceAllVote();
+        } else {
+            if (!_playersReadyList.vote(player.getName())) {
+                commandSender.sendMessage(ChatColor.GRAY + "You are already ready.");
+            }
+        }
+
+        if (_playersReadyList.allVoted()) {
+            _gameStateManager.startGame();
+            return true;
+        }
 
         return true;
     }

@@ -1,6 +1,7 @@
 package constants;
 
 import org.bukkit.Material;
+
 import state.game.ChallengeDifficulty;
 
 import java.util.List;
@@ -13,7 +14,8 @@ public class Items {
         itemsByDifficulty = Map.of(
                 ChallengeDifficulty.Fast, List.of(Material.WOODEN_SWORD, Material.WOODEN_AXE, Material.WOODEN_PICKAXE),
                 ChallengeDifficulty.Medium, List.of(Material.STONE_SWORD, Material.STONE_AXE, Material.STONE_PICKAXE),
-                ChallengeDifficulty.Long, List.of(Material.IRON_SWORD, Material.IRON_AXE, Material.IRON_PICKAXE)
+                ChallengeDifficulty.Long, List.of(Material.IRON_SWORD, Material.IRON_AXE, Material.IRON_PICKAXE),
+                ChallengeDifficulty.Random, List.of(Material.values())
         );
     }
 

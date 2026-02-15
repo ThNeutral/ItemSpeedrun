@@ -18,7 +18,6 @@ import ui.implementations.ScoreboardManager;
 
 public class MainPlugin extends JavaPlugin {
     private BukkitTask scoreboardTask;
-    private BukkitTask bannerTask;
 
     @Override
     public void onEnable() {
@@ -33,7 +32,7 @@ public class MainPlugin extends JavaPlugin {
 
         var items = new Items();
         var challengeManager = new ChallengeManager(items, timer, gameStateManager);
-        
+
         var inventoryManager = new InventoryManager();
 
         var playerList = new PlayerList();
@@ -44,31 +43,27 @@ public class MainPlugin extends JavaPlugin {
         IWorldHandler worldHandler = new PolledWorldHandler(worldPoll, playerList);
 
         var scoreboardManager = new ScoreboardManager(challengeManager, playerList, timer, gameStateManager);
-        var bannerManager = new BannerManager(gameStateManager, challengeManager, playerList, timer);
+        var bannerManager = new BannerManager(challengeManager, playerList, timer);
 
         pluginManager.registerEvents(new ItemAcquireEventListener(challengeManager), this);
         pluginManager.registerEvents(new PlayerEventListener(playerList, inventoryManager), this);
+        pluginManager.registerEvents(bannerManager, this);
 
         getCommand(RollCommand.COMMAND_NAME).setExecutor(new RollCommand(getLogger(), challengeManager));
         getCommand(ReadyCommand.COMMAND_NAME).setExecutor(
-                new ReadyCommand(getLogger(), playerList, playerList, inventoryManager, worldHandler, timer, gameStateManager)
-        );
+                new ReadyCommand(getLogger(), playerList, playerList, inventoryManager, worldHandler, timer,
+                        gameStateManager));
         getCommand(JoinCommand.COMMAND_NAME).setExecutor(new JoinCommand(getLogger()));
         getCommand(SkipCommand.COMMAND_NAME).setExecutor(new SkipCommand(getLogger()));
         getCommand(SurrenderCommand.COMMAND_NAME).setExecutor(new SurrenderCommand(getLogger()));
 
         scoreboardTask = scheduler.runTaskTimer(this, scoreboardManager::update, 0L, 2L);
-        bannerTask = scheduler.runTaskTimer(this, bannerManager::update, 0L, 2L);
     }
 
     @Override
     public void onDisable() {
         if (scoreboardTask != null && !scoreboardTask.isCancelled()) {
             scoreboardTask.cancel();
-        }
-
-        if (bannerTask != null && !bannerTask.isCancelled()) {
-            bannerTask.cancel();
         }
     }
 }

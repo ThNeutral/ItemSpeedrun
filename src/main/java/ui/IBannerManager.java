@@ -1,3 +1,5 @@
 package ui;
 
-public interface IBannerManager {}
+public interface IBannerManager {
+    void show();
+}

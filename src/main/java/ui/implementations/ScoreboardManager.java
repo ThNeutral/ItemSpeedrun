@@ -1,19 +1,20 @@
 package ui.implementations;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
-import ui.IScoreboardManager;
+
 import state.game.ChallengeDifficulty;
 import state.game.GameStates;
 import state.game.IChallengeManager;
 import state.game.IGameStateManager;
 import state.players.IPlayerList;
 import state.time.ITimer;
+import ui.IPoller;
+
 import java.util.Arrays;
 
-public class ScoreboardManager implements IScoreboardManager {
+public class ScoreboardManager implements IPoller {
     private final static String TIMER_TEAM_NAME = "timer_team";
     private final static String ITEM_TEAM_NAME = "item_team";
 
@@ -26,18 +27,16 @@ public class ScoreboardManager implements IScoreboardManager {
             IChallengeManager challengeGenerator,
             IPlayerList playerList,
             ITimer timer,
-            IGameStateManager gameStateManager
-    ) {
+            IGameStateManager gameStateManager) {
         _challengeGenerator = challengeGenerator;
         _playerList = playerList;
         _timer = timer;
         _gameStateManager = gameStateManager;
     }
 
+    @Override
     public void update() {
-        var players = _playerList.getPlayers();
-
-        for (var player : players) {
+        for (var player : _playerList.getPlayers()) {
             var scoreboard = getNewScoreboard();
             player.setScoreboard(scoreboard);
         }
@@ -46,55 +45,47 @@ public class ScoreboardManager implements IScoreboardManager {
     private Scoreboard getNewScoreboard() {
         var builder = new ScoreboardBuilder(7,
                 ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Item " + ChatColor.GRAY + ChatColor.BOLD + "SpeedRun",
-                DisplaySlot.SIDEBAR
-        );
+                DisplaySlot.SIDEBAR);
 
-        // Spacing
-        builder.addLine(" ");
-
-        // Spacing
+        builder.addLine();
         builder.addLine(ChatColor.RED + "");
 
         // Timer
-        builder.addTeam(TIMER_TEAM_NAME, ChatColor.LIGHT_PURPLE + "Timer " + ChatColor.GRAY + "-", ChatColor.WHITE + " " + _timer.getFormattedTime());
+        builder.addTeam(TIMER_TEAM_NAME,
+                ChatColor.LIGHT_PURPLE + "Timer " + ChatColor.GRAY + "-",
+                ChatColor.WHITE + " " + _timer.getFormattedTime());
 
         // Item
         var currentItem = _challengeGenerator.getCurrentItem();
         builder.addTeam(
-            ITEM_TEAM_NAME,
-            ChatColor.LIGHT_PURPLE + "Item " + ChatColor.GRAY + "-",
-            ChatColor.WHITE + " " + (currentItem.isPresent() ?  currentItem.get() : "None")
-        );
+                ITEM_TEAM_NAME,
+                ChatColor.LIGHT_PURPLE + "Item " + ChatColor.GRAY + "-",
+                ChatColor.WHITE + " " + (currentItem.isPresent() ? currentItem.get() : "None"));
 
-        // Spacing
-        builder.addLine("  ");
+        builder.addLine();
+        builder.addLine();
 
-        // Spacing
-        builder.addLine("   ");
-
-        // State
         switch (_gameStateManager.getCurrentState()) {
             case GameStates.ROLLING:
                 var difficulties = String.join(
                         "|",
                         Arrays.stream(
-                                ChallengeDifficulty.values()
-                        ).map(
-                                ChallengeDifficulty::toString
-                        ).map(
-                                String::toLowerCase
-                        ).toArray(
-                                String[]::new
-                        )
-                );
-                builder.addLine(ChatColor.DARK_AQUA + "Roll for item using " + ChatColor.RED + "/roll [" + difficulties + "]");
+                                ChallengeDifficulty.values()).map(
+                                        ChallengeDifficulty::toString)
+                                .map(
+                                        String::toLowerCase)
+                                .toArray(
+                                        String[]::new));
+                builder.addLine(
+                        ChatColor.DARK_AQUA + "Roll for item using " + ChatColor.RED + "/roll [" + difficulties + "]");
                 builder.addLine(ChatColor.DARK_AQUA + "Game will start when everyone is " + ChatColor.RED + "/ready");
                 break;
             case GameStates.PLAYING:
                 builder.addLine(ChatColor.DARK_AQUA + "The game is on!");
                 break;
             case GameStates.GAME_OVER:
-                builder.addLine(ChatColor.DARK_AQUA + "Game over! " + ChatColor.RED + _challengeGenerator.getVictor().get().getName() + ChatColor.DARK_AQUA + " has won!");
+                builder.addLine(ChatColor.DARK_AQUA + "Game over! " + ChatColor.RED
+                        + _challengeGenerator.getVictor().get().getName() + ChatColor.DARK_AQUA + " has won!");
                 break;
         }
 

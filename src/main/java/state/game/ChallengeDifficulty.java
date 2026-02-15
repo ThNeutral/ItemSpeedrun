@@ -5,7 +5,8 @@ import java.util.Optional;
 public enum ChallengeDifficulty {
     Fast,
     Medium,
-    Long;
+    Long,
+    Random;
 
     public static Optional<ChallengeDifficulty> fromString(String value) {
         if (value == null) {

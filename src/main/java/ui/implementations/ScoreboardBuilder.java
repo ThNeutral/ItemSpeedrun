@@ -25,6 +25,9 @@ class ScoreboardBuilder {
         _objective.setDisplaySlot(displaySlot);
     }
 
+    public ScoreboardBuilder addLine() {
+        return addLine(" ");
+    }
     public ScoreboardBuilder addLine(String line) {
         var score = _objective.getScore(line);
         score.setScore(_size--);

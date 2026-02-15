@@ -1,8 +1,9 @@
 package state.game;
 
-import org.bukkit.entity.Player;
 
 public interface IGameStateManager {
+    void startGame();
+    void roll(ChallengeDifficulty difficulty);
+    void endGame(boolean skipped);
     GameStates getCurrentState();
-    void setCurrentState(GameStates state);
 }

@@ -1,3 +1,23 @@
-.idea
-ItemSpeedrun.iml
-target
+# Compiled class files
+*.class
+bin/
+out/
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Build files
+target/
+build/
+
+# Maven
+dependency-reduced-pom.xml
+
+# OS files
+.DS_Store
+Thumbs.db
