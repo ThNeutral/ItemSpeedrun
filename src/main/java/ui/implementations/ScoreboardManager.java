@@ -1,5 +1,6 @@
 package ui.implementations;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
@@ -13,8 +14,8 @@ import state.time.ITimer;
 import java.util.Arrays;
 
 public class ScoreboardManager implements IScoreboardManager {
-    private final static String TIMER_TEAM_NAME = "timer";
-    private final static String ITEM_TEAM_NAME = "item";
+    private final static String TIMER_TEAM_NAME = "timer_team";
+    private final static String ITEM_TEAM_NAME = "item_team";
 
     private final IChallengeManager _challengeGenerator;
     private final IPlayerList _playerList;
@@ -55,15 +56,15 @@ public class ScoreboardManager implements IScoreboardManager {
         builder.addLine(ChatColor.RED + "");
 
         // Timer
-        builder.addTeam(TIMER_TEAM_NAME, ChatColor.LIGHT_PURPLE + "Timer " + ChatColor.GRAY + "-" + ChatColor.RED + " ", _timer.getFormattedTime());
+        builder.addTeam(TIMER_TEAM_NAME, ChatColor.LIGHT_PURPLE + "Timer " + ChatColor.GRAY + "-", ChatColor.WHITE + " " + _timer.getFormattedTime());
 
         // Item
         var currentItem = _challengeGenerator.getCurrentItem();
-        if (currentItem.isPresent()) {
-            builder.addTeam(ITEM_TEAM_NAME, ChatColor.LIGHT_PURPLE + "Item " + ChatColor.GRAY + "-" + ChatColor.RED + " ", currentItem.get().toString());
-        } else {
-            builder.addTeam(ITEM_TEAM_NAME, ChatColor.LIGHT_PURPLE + "Item " + ChatColor.GRAY + "-" + ChatColor.RED + " ", "None");
-        }
+        builder.addTeam(
+            ITEM_TEAM_NAME,
+            ChatColor.LIGHT_PURPLE + "Item " + ChatColor.GRAY + "-",
+            ChatColor.WHITE + " " + (currentItem.isPresent() ?  currentItem.get() : "None")
+        );
 
         // Spacing
         builder.addLine("  ");

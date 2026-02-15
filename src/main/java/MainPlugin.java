@@ -42,7 +42,9 @@ public class MainPlugin extends JavaPlugin {
         pluginManager.registerEvents(new PlayerEventListener(playerList), this);
 
         getCommand(RollCommand.COMMAND_NAME).setExecutor(new RollCommand(getLogger(), challengeManager));
-        getCommand(ReadyCommand.COMMAND_NAME).setExecutor(new ReadyCommand(getLogger(), playerList, worldHandler, timer));
+        getCommand(ReadyCommand.COMMAND_NAME).setExecutor(
+                new ReadyCommand(getLogger(), playerList, worldHandler, timer, gameStateManager)
+        );
         getCommand(JoinCommand.COMMAND_NAME).setExecutor(new JoinCommand(getLogger()));
         getCommand(SkipCommand.COMMAND_NAME).setExecutor(new SkipCommand(getLogger()));
         getCommand(SurrenderCommand.COMMAND_NAME).setExecutor(new SurrenderCommand(getLogger()));
