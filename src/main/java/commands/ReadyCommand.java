@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import state.game.IWorldHandler;
 import state.players.IPlayersReadyList;
+import state.time.ITimer;
 
 import java.util.logging.Logger;
 
@@ -17,15 +18,18 @@ public class ReadyCommand implements CommandExecutor {
     private final Logger _logger;
     private final IPlayersReadyList _playersReadyList;
     private final IWorldHandler _worldHandler;
+    private final ITimer _timer;
 
     public ReadyCommand(
             Logger logger,
             IPlayersReadyList playersReadyList,
-            IWorldHandler worldHandler
+            IWorldHandler worldHandler,
+            ITimer timer
     ) {
         this._logger = logger;
         this._playersReadyList = playersReadyList;
         this._worldHandler = worldHandler;
+        this._timer = timer;
     }
 
     @Override
@@ -54,5 +58,6 @@ public class ReadyCommand implements CommandExecutor {
         _worldHandler.moveAllPlayersToMainWorld();
         _worldHandler.unloadWorldPreviousAndGenerateNewWorld();
         _worldHandler.moveAllPlayersToMinigameWorld();
+        _timer.start();
     }
 }

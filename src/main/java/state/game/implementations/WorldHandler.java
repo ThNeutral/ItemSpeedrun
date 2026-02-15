@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.block.Biome;
 import state.game.IWorldHandler;
+import state.players.IPlayerList;
 
 import java.util.EnumSet;
 import java.util.Optional;
@@ -31,7 +32,13 @@ public class WorldHandler implements IWorldHandler {
     private Optional<World> _minigameWorld;
     private World _mainWorld;
 
-    public WorldHandler() {
+    private IPlayerList _playerList;
+
+    public WorldHandler(
+            IPlayerList playerList
+    ) {
+        _playerList = playerList;
+
         var minigameWorld = Bukkit.getWorld(MINIGAME_WORLD_NAME);
         if (minigameWorld != null) {
             _minigameWorld = Optional.of(minigameWorld);
@@ -62,15 +69,15 @@ public class WorldHandler implements IWorldHandler {
 
         var minigameWorld = _minigameWorld.get();
         var spawnLocation = findAvailableSpawnLocation(minigameWorld);
-        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(spawnLocation));
-        Bukkit.getOnlinePlayers().forEach(player -> player.setBedSpawnLocation(spawnLocation, true));
+        _playerList.getPlayers().forEach(player -> player.teleport(spawnLocation));
+        _playerList.getPlayers().forEach(player -> player.setBedSpawnLocation(spawnLocation, true));
         minigameWorld.setSpawnLocation(spawnLocation);
     }
 
     @Override
     public void moveAllPlayersToMainWorld() {
         var spawnLocation = _mainWorld.getSpawnLocation();
-        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(spawnLocation));
+        _playerList.getPlayers().forEach(player -> player.teleport(spawnLocation));
     }
 
     private Location findAvailableSpawnLocation(World world)

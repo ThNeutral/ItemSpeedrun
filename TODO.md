@@ -6,3 +6,7 @@
 - On pickup check victory condition
 - Win state
 - Add some benefits for those who suck balls and can't PVP
+
+# Bugs
+- zloebuchii timer na skorborde
+- clean inventory between runs
