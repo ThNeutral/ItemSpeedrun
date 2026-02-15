@@ -18,3 +18,5 @@ commands:
   surrender:
     description: Leave participation and spectate.
     usage: /surrender
+
+depend: [TrackingCompass]

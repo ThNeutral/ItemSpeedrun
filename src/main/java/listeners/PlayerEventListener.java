@@ -4,22 +4,41 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import state.players.IInventoryManager;
 import state.players.IPlayerList;
 
 public class PlayerEventListener implements Listener {
-    private final IPlayerList playerList;
+    private final IPlayerList _playerList;
+    private final IInventoryManager _inventoryManager;
 
-    public PlayerEventListener(IPlayerList playerList) {
-        this.playerList = playerList;
+    public PlayerEventListener(IPlayerList playerList, IInventoryManager inventoryManager) {
+        this._playerList = playerList;
+        this._inventoryManager = inventoryManager;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        playerList.addPlayer(event.getPlayer());
+        _playerList.addPlayer(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        playerList.removePlayer(event.getPlayer());
+        _playerList.removePlayer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event)
+    {
+        // Setup default player location
+//        if (lastWorldName != null) {
+////            World respawnWorld = Bukkit.getWorld(lastWorldName);
+////            if (respawnWorld != null) {
+////                Location respawnLocation = respawnWorld.getSpawnLocation();
+////                event.setRespawnLocation(respawnLocation);
+////            }
+//        }
+        
+        _inventoryManager.setDefaultInventory(event.getPlayer());
     }
 }

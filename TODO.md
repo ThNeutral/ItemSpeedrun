@@ -9,4 +9,3 @@
 
 # Bugs
 - zloebuchii timer na skorborde
-- clean inventory between runs

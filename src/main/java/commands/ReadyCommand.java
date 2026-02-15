@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import state.game.GameStates;
 import state.game.IGameStateManager;
 import state.game.IWorldHandler;
+import state.players.IInventoryManager;
+import state.players.IPlayerList;
 import state.players.IPlayersReadyList;
 import state.time.ITimer;
 
@@ -19,6 +21,8 @@ public class ReadyCommand implements CommandExecutor {
 
     private final Logger _logger;
     private final IPlayersReadyList _playersReadyList;
+    private final IPlayerList _playerList;
+    private final IInventoryManager _inventoryManager;
     private final IWorldHandler _worldHandler;
     private final ITimer _timer;
     private final IGameStateManager _gameStateManager;
@@ -26,12 +30,15 @@ public class ReadyCommand implements CommandExecutor {
     public ReadyCommand(
             Logger logger,
             IPlayersReadyList playersReadyList,
+            IPlayerList playerList,
+            IInventoryManager inventoryManager,
             IWorldHandler worldHandler,
             ITimer timer,
-            IGameStateManager gameStateManager
-    ) {
+            IGameStateManager gameStateManager) {
         this._logger = logger;
         this._playersReadyList = playersReadyList;
+        this._playerList = playerList;
+        this._inventoryManager = inventoryManager;
         this._worldHandler = worldHandler;
         this._timer = timer;
         this._gameStateManager = gameStateManager;
@@ -65,5 +72,9 @@ public class ReadyCommand implements CommandExecutor {
         _worldHandler.unloadWorldPreviousAndGenerateNewWorld();
         _worldHandler.moveAllPlayersToMinigameWorld();
         _timer.start();
+
+        for (Player player : _playerList.getPlayers()) {
+            _inventoryManager.setDefaultInventory(player);
+        }
     }
 }

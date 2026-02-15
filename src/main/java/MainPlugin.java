@@ -5,6 +5,7 @@ import listeners.ItemAcquireEventListener;
 import listeners.PlayerEventListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import state.players.implementation.InventoryManager;
 import ui.implementations.BannerManager;
 import ui.implementations.ScoreboardManager;
 import state.game.implementations.ChallengeManager;
@@ -33,17 +34,18 @@ public class MainPlugin extends JavaPlugin {
         var challengeManager = new ChallengeManager(items, timer, gameStateManager);
 
         var playerList = new PlayerList();
+        var inventoryManager = new InventoryManager();
         var worldHandler = new WorldHandler(playerList);
 
         var scoreboardManager = new ScoreboardManager(challengeManager, playerList, timer, gameStateManager);
         var bannerManager = new BannerManager(gameStateManager, challengeManager, playerList, timer);
 
         pluginManager.registerEvents(new ItemAcquireEventListener(challengeManager), this);
-        pluginManager.registerEvents(new PlayerEventListener(playerList), this);
+        pluginManager.registerEvents(new PlayerEventListener(playerList, inventoryManager), this);
 
         getCommand(RollCommand.COMMAND_NAME).setExecutor(new RollCommand(getLogger(), challengeManager));
         getCommand(ReadyCommand.COMMAND_NAME).setExecutor(
-                new ReadyCommand(getLogger(), playerList, worldHandler, timer, gameStateManager)
+                new ReadyCommand(getLogger(), playerList, playerList, inventoryManager, worldHandler, timer, gameStateManager)
         );
         getCommand(JoinCommand.COMMAND_NAME).setExecutor(new JoinCommand(getLogger()));
         getCommand(SkipCommand.COMMAND_NAME).setExecutor(new SkipCommand(getLogger()));
