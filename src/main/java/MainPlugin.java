@@ -10,6 +10,7 @@ import state.game.implementations.ChallengeManager;
 import state.game.implementations.GameStateManager;
 import state.game.implementations.Optimized.PolledWorldHandler;
 import state.game.implementations.Optimized.WorldPool;
+import state.players.implementation.InventoryManager;
 import state.players.implementation.PlayerList;
 import state.time.implementations.Timer;
 import ui.implementations.BannerManager;
@@ -32,23 +33,25 @@ public class MainPlugin extends JavaPlugin {
 
         var items = new Items();
         var challengeManager = new ChallengeManager(items, timer, gameStateManager);
+        
+        var inventoryManager = new InventoryManager();
 
         var playerList = new PlayerList();
         var worldPoll = new WorldPool(
                 10,
                 "speedrun_world_",
                 getServer().getWorldContainer());
-        IWorldHandler worldHandler = new PolledWorldHandler(worldPoll);
+        IWorldHandler worldHandler = new PolledWorldHandler(worldPoll, playerList);
 
         var scoreboardManager = new ScoreboardManager(challengeManager, playerList, timer, gameStateManager);
         var bannerManager = new BannerManager(gameStateManager, challengeManager, playerList, timer);
 
         pluginManager.registerEvents(new ItemAcquireEventListener(challengeManager), this);
-        pluginManager.registerEvents(new PlayerEventListener(playerList), this);
+        pluginManager.registerEvents(new PlayerEventListener(playerList, inventoryManager), this);
 
         getCommand(RollCommand.COMMAND_NAME).setExecutor(new RollCommand(getLogger(), challengeManager));
         getCommand(ReadyCommand.COMMAND_NAME).setExecutor(
-                new ReadyCommand(getLogger(), playerList, worldHandler, timer, gameStateManager)
+                new ReadyCommand(getLogger(), playerList, playerList, inventoryManager, worldHandler, timer, gameStateManager)
         );
         getCommand(JoinCommand.COMMAND_NAME).setExecutor(new JoinCommand(getLogger()));
         getCommand(SkipCommand.COMMAND_NAME).setExecutor(new SkipCommand(getLogger()));
